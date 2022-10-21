@@ -1,0 +1,86 @@
+#include<iostream>
+using namespace std;
+
+struct Mathang
+{
+	string MaHang;
+	string LoaiHang;
+	string TenHang;
+	int SoLuong;
+	float DonGia;
+	string Ot;
+};
+// dinh nghia node
+struct Node
+{
+	Mathang data;
+	Node *Next;	
+};
+typedef Node *Nodeptr;
+
+//ham tao node
+Nodeptr CreateNode(Mathang x)
+{
+	Nodeptr p;
+	p=new Node;
+	p->data=x;
+	p->Next=NULL;
+	return p;
+}
+void InsertLast(Nodeptr &Head,Nodeptr &Tail,Nodeptr p)
+{
+	if(Head==NULL)
+	{
+		Head=p;
+		Tail=p;
+	}
+	else
+	{
+		Tail->Next=p;
+		Tail=Tail->Next;//Theo y kien cua Phat
+	}
+}
+void xuat(Mathang x)
+{
+	cout<<x.MaHang<<"\t"<<x.LoaiHang<<"\t"<<x.TenHang<<"\t";
+	cout<<x.SoLuong<<"\t"<<x.DonGia<<"\t"<<x.Ot<<endl;
+}
+void Print(Nodeptr Head,Nodeptr Tail)
+{
+    Nodeptr q,Head2=NULL,Tail2=NULL;
+	Nodeptr p=Head;
+	cout<<"Danh sach lien ket don:\n";
+	while(p!=NULL)
+	{
+	    xuat(p->data);
+	    if(p->data.Ot=="Co"){
+	        q=CreateNode(p->data);
+			InsertLast(Head2,Tail2,q);
+	    }
+		    
+		p=p->Next;
+	}
+	cout<<"\nDanh sach lien ket don1:\n";
+	for(Nodeptr p=Head2;p!=NULL;p=p->Next){
+		xuat(p->data);
+	}
+	delete Head2;
+	delete Tail2;
+}
+int main()
+{
+	Nodeptr p,Head,Tail;
+	Head=Tail=NULL;
+	Mathang x[3]=
+	{	{"BT01","Banh trang","BonBon",2000,7,"Co"},
+		{"BT02","Com chay","Bon",1500,5,"Khong"},
+		{"BT03","Banh trang","Ary",500,7.5,"Co"}
+	};
+	for(int i=0;i<3;i++)
+	{
+	p=CreateNode(x[i]);
+	InsertLast(Head,Tail,p);
+	};
+	cout<<"\n Xuat mat hang "<<endl;
+	Print(Head,Tail);
+}

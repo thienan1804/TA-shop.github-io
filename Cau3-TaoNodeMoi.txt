@@ -1,0 +1,80 @@
+#include<iostream>
+using namespace std;
+
+// dinh nghia node
+struct Node
+{
+	int data;
+	Node *Next;	
+};
+typedef Node *Nodeptr;
+
+//ham tao node
+Nodeptr CreateNode(int x)
+{
+	Nodeptr p;
+	p=new Node;
+	p->data=x;
+	p->Next=NULL;
+	return p;
+}
+void InsertLast(Nodeptr &Head,Nodeptr &Tail,Nodeptr p)
+{
+	if(Head==NULL)
+	{
+		Head=p;
+		Tail=p;
+	}
+	else
+	{
+		Tail->Next=p;
+		Tail=p;//Theo y kien cua Phat
+	}
+}
+void Print(Nodeptr Head,Nodeptr Tail)
+{
+	Nodeptr q,Head2=NULL,Tail2=NULL;
+	Nodeptr p=Head;
+	cout<<"Danh sach lien ket don:\n";
+	while(p!=NULL)
+	{
+		cout<<p->data<<"\t";
+		if(p->data%2==0 && p->data>10 && p->data<20){
+			q=CreateNode(p->data);
+			InsertLast(Head2,Tail2,q);
+		}
+		p = p->Next;
+	}
+	
+	cout<<"\nDanh sach lien ket don1:\n";
+	for(Nodeptr p=Head2;p!=NULL;p=p->Next){
+		cout<<p->data<<"\t";
+	}
+	delete Head2;
+	delete Tail2;
+}
+
+
+int main()
+{
+	Nodeptr p,Head,Tail;
+	Head=Tail=NULL;
+	
+	int n;
+	int x;
+	cout<<"\n Nhap so phan tu n: ";
+	cin>>n;
+	
+	for(int i=1;i<=n;i++)
+	{
+	cout<<"\n nhap gia tri gia tri "<<i<<":";
+	cin>>x;
+	p=CreateNode(x);
+	InsertLast(Head,Tail,p);
+	}
+	
+	Print(Head,Tail);
+	delete Head;
+	delete Tail;
+	return 0;
+}

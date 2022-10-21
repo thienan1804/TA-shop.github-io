@@ -1,0 +1,117 @@
+#include<iostream>
+#include<iomanip>
+using namespace std;
+
+// doan 1: dinh nghia node can co chi thay doi kieu du lieu data khi can
+typedef struct Node
+{
+	int data;
+	Node *Next;
+	Node *Prev;// bo sung them so voi dslkdon
+}Nodetype;
+
+typedef Nodetype *Nodeptr;
+
+//doan 2 can co la  ham createnode chi thay doi kieu du lieu x
+
+Nodeptr CreateNode(int x)
+{
+	Nodeptr p;
+	p=new Node;
+	p->data=x;
+	p->Next=NULL;
+	p->Prev=NULL;// bo sung them so voi dslkdon
+	return p;
+} 
+// doan 3 can ham insertlast hoac insertFirst 
+void InsertLast(Nodeptr &Head,Nodeptr &Tail, Nodeptr p)
+{
+	if(Head==NULL)
+	{
+		Head=p;
+		Tail=p;
+	}
+	else
+	{
+		Tail->Next=p;
+		p->Prev=Tail;// bo sung them so voi dslkdon
+		Tail=p;
+	}
+}
+// doan thu 4 can co la ham tao danh sach theo yeu cau bai toan
+
+void nhap(int &x)
+{
+	cout<<"\n nhap gia tri: ";
+	cin>>x;
+}
+void CreateList(Nodeptr &Head, Nodeptr &Tail)
+{
+	Nodeptr p;
+	int x,n;
+	cout<<"\n Nhap so phan tu can co trong danh sach: ";
+	cin>>n;
+	for(int i=1;i<=n;i++)
+	{
+		nhap(x);
+		p=CreateNode(x);
+		InsertLast(Head,Tail,p);
+	}
+}
+// doan thu 5 can co la print ham duyet xau de in ra
+void Print(Nodeptr Head,Nodeptr Tail)
+{
+	Nodeptr p;
+	p=Head;
+	while(p!=NULL)
+	{
+		cout<<p->data<<"\t";
+		p=p->Next;
+	}
+}
+
+bool KiemtraSoHH(int x){
+	int sum=0;
+	for(int i=1;i<x;i++){
+		if(x%i==0){
+			sum=sum+i;
+		}
+	}
+	if(sum!=0&&sum==x){
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+void searchxMinHH(Nodeptr Head,Nodeptr Tail)
+{
+	Nodeptr p;
+	p=Head;
+	int dem=0;
+	while(p!=NULL)
+	{	
+		if(KiemtraSoHH(p->data)==true){
+			dem++;
+		}
+		p=p->Next;
+	}
+	cout<<"\nSo luong so hoan hao:"<<dem<<endl;
+}
+int main()
+{
+	Nodeptr Head,Tail;
+	Head=Tail=NULL; // dong quan trong nhat trong ham main khoi tao xau rong
+	CreateList(Head,Tail);
+	cout<<"\n Danh sach vua nhap la: "<<endl;
+	Print(Head,Tail);
+	searchxMinHH(Head,Tail);
+	
+	
+	
+	delete Head;
+	delete Tail;
+	return 0;
+	 
+}
